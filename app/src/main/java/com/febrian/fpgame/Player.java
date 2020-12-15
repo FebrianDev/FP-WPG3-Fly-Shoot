@@ -10,7 +10,7 @@ public class Player {
     public static float timer = 0;
     public static int i = 1;
     private float playerPosY;
-    Bitmap [] player = new Bitmap[8];
+    Bitmap [] player = new Bitmap[3];
     int screenX, screenY;
     Player(int x, int y, Resources resources){
         screenX = x;
@@ -22,9 +22,6 @@ public class Player {
         player[2] = Bitmap.createScaledBitmap(BitmapFactory.decodeResource(resources, R.drawable.karaktter03), 128, 128, false);
     }
 
-    Player(){
-
-    }
 
     public void update(float fps){
         /*Animation Char Start*/

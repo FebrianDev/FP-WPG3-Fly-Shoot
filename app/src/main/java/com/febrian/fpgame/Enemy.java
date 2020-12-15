@@ -7,7 +7,7 @@ import android.graphics.Canvas;
 import android.graphics.RectF;
 
 public class Enemy {
-    Bitmap enemy;
+    Bitmap [] enemy = new Bitmap[3];
     int screenX,screenY;
     float enemyMove;
     float posY;
@@ -15,22 +15,37 @@ public class Enemy {
 
     int width,height;
 
+    int i = 0;
+    float timer = 0;
     Enemy(int x, int y, Resources resources){
         screenX = x;
         screenY = y;
         width = 200;
         height = 200;
-        enemy = Bitmap.createScaledBitmap(BitmapFactory.decodeResource(resources, R.drawable.batas), width,height,false);
+
+        enemy[0] = Bitmap.createScaledBitmap(BitmapFactory.decodeResource(resources, R.drawable.enemy1), width, height, false);
+        enemy[1] = Bitmap.createScaledBitmap(BitmapFactory.decodeResource(resources, R.drawable.enemy2), width, height, false);
+        enemy[2] = Bitmap.createScaledBitmap(BitmapFactory.decodeResource(resources, R.drawable.enemy3), width, height, false);
         isVisible = true;
     }
 
     public void update(float fps)
     {
+        timer += fps;
+        if(timer > 100){
+            i++;
+            timer = 0;
+        }
+
+        if(i == 3){
+            i = 0;
+        }
+
         enemyMove -= 0.3 * fps;
     }
 
     public void drawBitmap(Canvas canvas){
-        canvas.drawBitmap(enemy, getEnemyMove(),getPosY(), null);
+        canvas.drawBitmap(enemy[i], getEnemyMove(),getPosY(), null);
     }
 
     public void setPosYBullet(float posY){

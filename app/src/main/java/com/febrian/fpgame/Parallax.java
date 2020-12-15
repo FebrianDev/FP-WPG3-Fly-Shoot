@@ -6,7 +6,7 @@ import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 
 public class Parallax {
-    Bitmap bg[] = new Bitmap[2];
+    Bitmap[] bg = new Bitmap[2];
     float posX = 0,posX2 = 2100;
     Parallax(int x, int y, Resources resources){
         bg[0] = Bitmap.createScaledBitmap(BitmapFactory.decodeResource(resources, R.drawable.bg), x, y, false);

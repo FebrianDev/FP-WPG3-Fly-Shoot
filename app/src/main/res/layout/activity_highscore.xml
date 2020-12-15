@@ -5,28 +5,30 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@drawable/bg_with_cloud"
-    tools:context=".MainMenu">
+    tools:context=".Highscore">
 
     <ImageView
         android:id="@+id/bintang_biasa"
         android:layout_width="match_parent"
-        android:layout_height="200dp"
+        android:layout_height="180dp"
         android:layout_margin="24dp"
         android:background="@drawable/bintang_biasa"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
+
     <ImageView
         android:id="@+id/bintang_bulat"
         android:layout_width="match_parent"
         android:layout_height="200dp"
         android:layout_margin="24dp"
+        android:layout_marginTop="60dp"
         android:background="@drawable/bintang_bulat"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
-
 
     <ImageView
         android:id="@+id/comet1"
@@ -60,73 +62,82 @@
         app:layout_constraintStart_toEndOf="@+id/comet2"
         app:layout_constraintTop_toTopOf="parent" />
 
-<!--    <ImageView-->
-<!--        android:layout_width="match_parent"-->
-<!--        android:layout_height="230dp"-->
-<!--        android:background="@drawable/awan"-->
-<!--        app:layout_constraintTop_toBottomOf="@+id/view"-->
-<!--        app:layout_constraintEnd_toEndOf="parent"-->
-<!--        app:layout_constraintStart_toStartOf="parent" />-->
-
-    <Button
-        android:id="@+id/music_on_off"
-        android:layout_width="48dp"
-        android:layout_height="48dp"
-        android:layout_margin="12dp"
-        android:background="@drawable/btn_music_on"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
-    <View
-        android:id="@+id/view"
-        android:layout_width="250dp"
-        android:layout_height="150dp"
-        android:layout_marginTop="24dp"
-        android:background="@drawable/title_menu"
+    <TextView
+        android:id="@+id/textView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="42dp"
+        android:fontFamily="@font/wicked_mouse"
+        android:text="HighScore"
+        android:textColor="#3F51B5"
+        android:textSize="42sp"
+        android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
-
-    <Button
-        android:id="@+id/btn_play"
-        android:layout_width="180dp"
+        <Button
+        android:id="@+id/back"
+        android:layout_width="65dp"
         android:layout_height="60dp"
-        android:layout_marginStart="108dp"
-        android:layout_marginTop="24dp"
-        android:background="@drawable/btn_play"
+        android:background="@drawable/back"
+        android:layout_margin="32dp"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/view" />
+        app:layout_constraintTop_toTopOf="parent" />
 
-    <Button
-        android:id="@+id/btn_highscore"
-        android:layout_width="180dp"
+    <LinearLayout
+        android:id="@+id/linearLayout1"
+        android:layout_width="match_parent"
         android:layout_height="60dp"
-        android:layout_marginStart="108dp"
-        android:layout_marginTop="20dp"
-        android:background="@drawable/btn_high_score"
+        android:orientation="horizontal"
+        android:weightSum="3"
+        android:layout_marginHorizontal="48dp"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/btn_play" />
+        app:layout_constraintTop_toBottomOf="@+id/textView">
 
-    <Button
-        android:id="@+id/btn_credit"
-        android:layout_width="180dp"
-        android:layout_height="60dp"
-        android:layout_marginEnd="108dp"
-        android:layout_marginTop="24dp"
-        android:background="@drawable/btn_credit"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/view" />
+        <TextView
+            android:gravity="center"
+            android:id="@+id/tv_no"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:layout_weight="1"
+            android:text="No "
+            android:textColor="@android:color/white"
+            android:textSize="24sp" />
 
-    <Button
-        android:id="@+id/btn_exit"
-        android:layout_width="180dp"
-        android:layout_height="60dp"
-        android:layout_marginStart="108dp"
-        android:layout_marginEnd="108dp"
-        android:layout_marginTop="20dp"
-        android:background="@drawable/btn_exit"
+        <TextView
+            android:gravity="center"
+            android:id="@+id/tv_name"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:layout_weight="1"
+            android:text="Name "
+            android:textColor="@android:color/white"
+            android:textSize="24sp" />
+
+        <TextView
+            android:gravity="center"
+            android:id="@+id/tv_score"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginLeft="24dp"
+            android:layout_weight="1"
+            android:text="Score "
+            android:textColor="@android:color/white"
+            android:textSize="24sp" />
+    </LinearLayout>
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/rv"
+        android:layout_marginHorizontal="48dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintStart_toEndOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/btn_credit" />
+        app:layout_constraintTop_toBottomOf="@+id/linearLayout1"/>
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

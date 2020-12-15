@@ -29,7 +29,7 @@ public class Bullet{
     }
 
     public void drawBitmap(Canvas canvas){
-        canvas.drawBitmap(bullet, getBulletMove(),getPosY(), null);
+        canvas.drawBitmap(bullet, getBulletMove() + 120,getPosY()+60, null);
     }
 
     public void setPosYBullet(float posY){
