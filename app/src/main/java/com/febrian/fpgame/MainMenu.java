@@ -1,39 +1,28 @@
 package com.febrian.fpgame;
 
-import androidx.appcompat.app.AppCompatActivity;
-
 import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
-import android.content.res.AssetFileDescriptor;
-import android.content.res.AssetManager;
-import android.graphics.drawable.Drawable;
-import android.media.AudioAttributes;
-import android.media.AudioManager;
 import android.media.MediaPlayer;
-import android.media.SoundPool;
-import android.os.Build;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.Button;
-import android.widget.ImageView;
 
-import java.io.IOException;
+import androidx.core.content.ContextCompat;
 
 public class MainMenu extends Activity implements  View.OnClickListener {
 
-    private Button musicOnOff, btnPlay, btnCredit, btnHighscore, btnExit;
+    private Button musicOnOff;
     boolean musicOn = true;
     Context context;
     Animation anim, title_anim;
     View title_view;
     final MediaPlayer[] bgSound = {null};
 
-    ImageView comet1,comet2,comet3, bintang_biasa,bintang_bulat;
+    View comet1,comet2,comet3, bintang_biasa,bintang_bulat;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -56,14 +45,14 @@ public class MainMenu extends Activity implements  View.OnClickListener {
 
         //get View Id
         musicOnOff = findViewById(R.id.music_on_off);
-        btnPlay = findViewById(R.id.btn_play);
-        btnCredit = findViewById(R.id.btn_credit);
-        btnHighscore = findViewById(R.id.btn_highscore);
-        btnExit = findViewById(R.id.btn_exit);
-        title_view = findViewById(R.id.view);
-
-        title_anim = AnimationUtils.loadAnimation(context, R.anim.scale_title_anim);
-       // title_view.setAnimation(title_anim);
+        Button btnPlay = findViewById(R.id.btn_play);
+        Button btnCredit = findViewById(R.id.btn_credit);
+        Button btnHighscore = findViewById(R.id.btn_highscore);
+        Button btnExit = findViewById(R.id.btn_exit);
+//        title_view = findViewById(R.id.view);
+//
+//        title_anim = AnimationUtils.loadAnimation(context, R.anim.scale_title_anim);
+//       // title_view.setAnimation(title_anim);
 
         //implement setOnclick
         btnPlay.setOnClickListener(this);
@@ -153,12 +142,12 @@ public class MainMenu extends Activity implements  View.OnClickListener {
             if (musicOn) {
                 PlayMusic();
                 musicOnOff.setAnimation(anim);
-                musicOnOff.setBackground(getDrawable(R.drawable.btn_music_on));
+                musicOnOff.setBackground(ContextCompat.getDrawable(this,R.drawable.btn_music_on));
             }
             else{
                 PauseMusic();
                 musicOnOff.setAnimation(anim);
-                musicOnOff.setBackground(getDrawable(R.drawable.btn_music_off));
+                musicOnOff.setBackground(ContextCompat.getDrawable(this, R.drawable.btn_music_off));
             }
     }
 }

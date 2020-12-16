@@ -5,6 +5,7 @@
     android:repeatMode="reverse"
     >
     <scale
+
         android:repeatCount="infinite"
         android:fromYScale="0.6"
         android:toYScale="1.0"

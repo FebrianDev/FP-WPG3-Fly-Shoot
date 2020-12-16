@@ -32,8 +32,6 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
-import java.util.ArrayList;
-
 /*
 * id :
 * jump = 1
@@ -84,7 +82,7 @@ public class MainActivity extends Activity {
         RelativeLayout.LayoutParams EdName = new RelativeLayout.LayoutParams(300, 150);
         RelativeLayout.LayoutParams bName = new RelativeLayout.LayoutParams(250, 150);
 
-        RelativeLayout.LayoutParams params = new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.FILL_PARENT, RelativeLayout.LayoutParams.FILL_PARENT);
+        RelativeLayout.LayoutParams params = new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.MATCH_PARENT, RelativeLayout.LayoutParams.MATCH_PARENT);
 
         gameButtons.setLayoutParams(params);
         gameButtons.addView(btnJump);
@@ -311,9 +309,10 @@ public class MainActivity extends Activity {
 //                        }
 //                    }
 //                }
-
-                canvas.drawText("Score : " + score, 440, 120, paint);
-                canvas.drawText("FPS:" + fps, 120, 120, paint);
+                paint.setColor(Color.WHITE);
+                paint.setTextSize(72);
+                canvas.drawText("Score : " + (int)score, 120, 120, paint);
+                //canvas.drawText("FPS:" + fps, 120, 120, paint);
                 ourHolder.unlockCanvasAndPost(canvas);
             }
         }
@@ -365,9 +364,13 @@ public class MainActivity extends Activity {
             btnName.setTranslationX(200);
             btnName.setAlpha(1);
             btnName.setVisibility(VISIBLE);
+
+            btnPause.setEnabled(false);
         }
 
         public void setGameOverOff(){
+            btnPause.setEnabled(true);
+
             btnExit.setVisibility(VISIBLE);
             btnExit.setTranslationY(height);
             btnExit.setAlpha(0);

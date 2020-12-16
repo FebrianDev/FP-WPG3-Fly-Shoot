@@ -1,26 +1,35 @@
 package com.febrian.fpgame;
 
-import android.annotation.SuppressLint;
 import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
+import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.view.View;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.Button;
-import android.widget.ImageView;
 
-public class Credits extends Activity {
+import androidx.core.content.ContextCompat;
 
-    private Button back;
-    ImageView comet1,comet2,comet3, bintang_biasa,bintang_bulat;
-    @SuppressLint("WrongViewCast")
+public class Credits extends Activity{
+
+    final MediaPlayer[] bgSound = {null};
+    boolean musicOn = true;
+    private Button musicOnOff;
+    Context context;
+    Animation anim;
+    View comet1,comet2,comet3, bintang_biasa,bintang_bulat;
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_credits);
 
-        back = findViewById(R.id.back);
+        context = this;
+
+        Button back = findViewById(R.id.back);
 
         comet1 = findViewById(R.id.comet1);
         comet2 = findViewById(R.id.comet2);
@@ -28,12 +37,11 @@ public class Credits extends Activity {
         bintang_biasa = findViewById(R.id.bintang_biasa);
         bintang_bulat = findViewById(R.id.bintang_bulat);
 
-        back.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                startActivity(new Intent(getApplicationContext(), MainMenu.class));
-                finish();
-            }
+        musicOnOff = findViewById(R.id.music_on_off);
+
+        back.setOnClickListener(v -> {
+            startActivity(new Intent(getApplicationContext(), MainMenu.class));
+            finish();
         });
 
         comet1.setAnimation(AnimationUtils.loadAnimation(this, R.anim.comet1_anim));
@@ -42,5 +50,50 @@ public class Credits extends Activity {
 
         bintang_biasa.setAnimation(AnimationUtils.loadAnimation(this, R.anim.bintang1_anim));
         bintang_bulat.setAnimation(AnimationUtils.loadAnimation(this, R.anim.bintang2_anim));
+
+        bgSound[0] = MediaPlayer.create(context, R.raw.music1);
+        bgSound[0].setLooping(true);
+        bgSound[0].start();
+
+        musicOnOff.setOnClickListener(v -> {
+            musicOn = !musicOn;
+            anim = AnimationUtils.loadAnimation(context, R.anim.bounce_anim);
+            if (musicOn) {
+                PlayMusic();
+                musicOnOff.setAnimation(anim);
+                musicOnOff.setBackground(ContextCompat.getDrawable(this,R.drawable.btn_music_on));
+            }
+            else{
+                PauseMusic();
+                musicOnOff.setAnimation(anim);
+                musicOnOff.setBackground(ContextCompat.getDrawable(this, R.drawable.btn_music_off));
+            }
+        });
+    }
+
+    private void PlayMusic(){
+        if(bgSound[0] == null){
+            bgSound[0] = MediaPlayer.create(context, R.raw.music1);
+            bgSound[0].setLooping(true);
+        }
+        bgSound[0].start();
+    }
+
+    private void PauseMusic(){
+        if(bgSound[0] != null){
+            bgSound[0].pause();
+        }
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        PauseMusic();
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        PlayMusic();
     }
 }

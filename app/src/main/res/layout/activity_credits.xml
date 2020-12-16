@@ -4,10 +4,16 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/bg_with_cloud"
     tools:context=".Credits">
-
-    <ImageView
+<View
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/bg_with_cloud"
+    app:layout_constraintStart_toStartOf="parent"
+    app:layout_constraintEnd_toEndOf="parent"
+    app:layout_constraintTop_toTopOf="parent"
+    app:layout_constraintBottom_toBottomOf="parent"/>
+    <View
         android:id="@+id/bintang_biasa"
         android:layout_width="match_parent"
         android:layout_height="180dp"
@@ -18,19 +24,19 @@
         app:layout_constraintTop_toTopOf="parent" />
 
 
-    <ImageView
+    <View
         android:id="@+id/bintang_bulat"
         android:layout_width="match_parent"
         android:layout_height="200dp"
         android:layout_margin="24dp"
-        android:layout_marginTop="60dp"
+        android:layout_marginTop="24dp"
         android:background="@drawable/bintang_bulat"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintHorizontal_bias="0.75"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <ImageView
+    <View
         android:id="@+id/comet1"
         android:layout_width="120dp"
         android:layout_height="60dp"
@@ -39,9 +45,8 @@
         android:background="@drawable/comet"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        tools:ignore="ContentDescription" />
-
-    <ImageView
+      />
+    <View
         android:id="@+id/comet2"
         android:layout_width="100dp"
         android:layout_height="50dp"
@@ -52,7 +57,7 @@
         app:layout_constraintTop_toTopOf="parent"
         tools:ignore="ContentDescription" />
 
-    <ImageView
+    <View
         android:id="@+id/comet3"
         android:layout_width="120dp"
         android:layout_height="60dp"
@@ -62,16 +67,21 @@
         app:layout_constraintStart_toEndOf="@+id/comet2"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <TextView
+    <Button
+        android:id="@+id/music_on_off"
+        android:layout_width="48dp"
+        android:layout_height="48dp"
+        android:layout_margin="12dp"
+        android:background="@drawable/btn_music_on"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <View
         android:id="@+id/textView"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="42dp"
-        android:fontFamily="@font/wicked_mouse"
-        android:text="Credit"
-        android:textColor="#3F51B5"
-        android:textSize="42sp"
-        android:textStyle="bold"
+        android:layout_width="180dp"
+        android:layout_height="108dp"
+        android:layout_marginTop="36dp"
+        android:background="@drawable/credit"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
@@ -81,7 +91,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="72dp"
-        android:layout_marginTop="48dp"
+        android:layout_marginTop="32dp"
         android:fontFamily="@font/westmeath"
         android:text="M. Dwi Febrian"
         android:textColor="@android:color/white"
@@ -106,7 +116,7 @@
         android:id="@+id/textView3"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="135dp"
+        android:layout_marginTop="100dp"
         android:fontFamily="@font/westmeath"
         android:text="M. Januar Afandi "
         android:textColor="@android:color/white"
@@ -133,7 +143,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginEnd="72dp"
-        android:layout_marginTop="48dp"
+        android:layout_marginTop="32dp"
         android:fontFamily="@font/westmeath"
         android:text="Dimas Rizky A.F"
         android:textColor="@android:color/white"

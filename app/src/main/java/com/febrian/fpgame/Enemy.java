@@ -20,8 +20,8 @@ public class Enemy {
     Enemy(int x, int y, Resources resources){
         screenX = x;
         screenY = y;
-        width = 200;
-        height = 200;
+        width = 128;
+        height = 128;
 
         enemy[0] = Bitmap.createScaledBitmap(BitmapFactory.decodeResource(resources, R.drawable.enemy1), width, height, false);
         enemy[1] = Bitmap.createScaledBitmap(BitmapFactory.decodeResource(resources, R.drawable.enemy2), width, height, false);
