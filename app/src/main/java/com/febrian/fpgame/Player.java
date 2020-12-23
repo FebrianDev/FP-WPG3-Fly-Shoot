@@ -28,7 +28,7 @@ public class Player {
         if(i!= 2)
             timer += fps;
 
-        if(timer > 6000 && i < 2){
+        if(timer > 3000 && i < 2){
             i++;
             timer = 0;
         }

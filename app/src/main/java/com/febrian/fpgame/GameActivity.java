@@ -1,15 +1,18 @@
-
 package com.febrian.fpgame;
 
 import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.content.res.AssetFileDescriptor;
+import android.content.res.AssetManager;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Point;
 import android.graphics.RectF;
+import android.media.AudioManager;
+import android.media.SoundPool;
 import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
@@ -21,7 +24,6 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.FrameLayout;
 import android.widget.RelativeLayout;
-import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.RequiresApi;
@@ -32,22 +34,14 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
-/*
-* id :
-* jump = 1
-* shoot = 2
-* pause = 3
-* resume = 4
-* restart = 5
-* exit = 6
-*/
+import java.io.IOException;
+import java.util.ArrayList;
 
-public class MainActivity extends Activity {
+public class GameActivity extends Activity {
     private GameView gameView;
-    private Button btnExit, btnJump,btnShoot,btnRestart, btnPause,btnResume;
+    private Button btnExit, btnJump, btnShoot, btnRestart, btnPause, btnResume;
     private EditText name;
     private Button btnName;
-    private TextView gameOver;
 
     public static boolean paused = false;
     public static boolean isGameOver = false;
@@ -58,7 +52,7 @@ public class MainActivity extends Activity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         // Initialize gameView and set it as the view
-        gameView = new GameView(this);
+        gameView = new GameActivity.GameView(this);
         RelativeLayout gameButtons = new RelativeLayout(this);
         FrameLayout game = new FrameLayout(this);
 
@@ -72,11 +66,11 @@ public class MainActivity extends Activity {
         name = new EditText(this);
         btnName = new Button(this);
 
-        RelativeLayout.LayoutParams bJump = new RelativeLayout.LayoutParams(240, 240);
-        RelativeLayout.LayoutParams bShoot = new RelativeLayout.LayoutParams(240,240);
+        RelativeLayout.LayoutParams bJump = new RelativeLayout.LayoutParams(400, 400);
+        RelativeLayout.LayoutParams bShoot = new RelativeLayout.LayoutParams(400, 400);
         RelativeLayout.LayoutParams bPause = new RelativeLayout.LayoutParams(150, 150);
         RelativeLayout.LayoutParams bResume = new RelativeLayout.LayoutParams(250, 150);
-        RelativeLayout.LayoutParams bRestart = new RelativeLayout.LayoutParams(250,150);
+        RelativeLayout.LayoutParams bRestart = new RelativeLayout.LayoutParams(250, 150);
         RelativeLayout.LayoutParams bExit = new RelativeLayout.LayoutParams(250, 150);
 
         RelativeLayout.LayoutParams EdName = new RelativeLayout.LayoutParams(300, 150);
@@ -111,6 +105,7 @@ public class MainActivity extends Activity {
         bShoot.addRule(RelativeLayout.ALIGN_PARENT_BOTTOM, RelativeLayout.TRUE);
 
         btnPause.setBackground(getDrawable(R.drawable.pause));
+        btnPause.setAlpha(0);
         int ID_PAUSE = 3;
         btnPause.setId(ID_PAUSE);
         bPause.topMargin = 24;
@@ -168,23 +163,49 @@ public class MainActivity extends Activity {
         private long fps;
         private Parallax parallax;
         private Player player;
-        private Bullet bullet, bullet2;
 
-        private Enemy enemy;
-        //ArrayList<Enemy> enemies = new ArrayList<>();
-        private boolean fire = false, fire2 = false;
         private float score = 0;
         private float randPosY;
 
-        //ArrayList<Bullet> bullets = new ArrayList<>();
-        Bullet mybul;
-        float timerShoot = 0;
-        int i = 0;
+        Bullet bullet;
+        Enemy enemy;
+
+        float timerEnemy = 0;
+
+        ArrayList<Bullet> bullets = new ArrayList<>();
+        ArrayList<Enemy> enemies = new ArrayList<>();
+
+//        SoundPool soundPool;
+//        int bgSfx = -1;
+//        int shootSfx = -1;
+//        int enemyDieSfx = -1;
+//        int loseLifeID = -1;
+//        int explodeID = -1;
+
         public GameView(Context context) {
             super(context);
             ourHolder = getHolder();
             paint = new Paint();
             playing = true;
+
+//            soundPool = new SoundPool(10, AudioManager.STREAM_MUSIC, 0);
+//
+//            try {
+//                AssetManager assetManager = context.getAssets();
+//                AssetFileDescriptor descriptor;
+//
+//                // Load our fx in memory ready for use
+//                descriptor = assetManager.openFd("beep1.ogg");
+//                shootSfx = soundPool.load(descriptor, 0);
+//
+//                descriptor = assetManager.openFd("beep2.ogg");
+//                enemyDieSfx = soundPool.load(descriptor, 0);
+//
+//            } catch (IOException e) {
+//                // Print an error message to the console
+//                Log.e("error", "failed to load sound files");
+//            }
+
         }
 
         @RequiresApi(api = Build.VERSION_CODES.N)
@@ -196,7 +217,6 @@ public class MainActivity extends Activity {
             display.getSize(size);
             width = size.x;
             height = size.y;
-            int xmax = getResources().getDisplayMetrics().widthPixels;
 
             createAndRestart();
 
@@ -214,21 +234,30 @@ public class MainActivity extends Activity {
 
         @RequiresApi(api = Build.VERSION_CODES.N)
         public void update() {
-            float min = 200;
-            float max = 650;
+            float min = 200, max = 650;
             randPosY = (float) Math.random() * max + min;
             parallax.update(fps);
             player.update(fps);
-            bullet.update(fps);
-            bullet2.update(fps);
-            enemy.update(fps);
-            //enemies.forEach(n -> n.update(fps));
 
-//            for (int j = 0; j < bullets.size(); j++){
-//                bullets.get(j).update(fps);
-//            }
+            timerEnemy += fps;
 
-            timerShoot += fps;
+            if (enemies.size() < 3 && timerEnemy > 1000) {
+                createEnemy();
+                timerEnemy = 0;
+            }
+
+            if (enemies.size() > 0) {
+                for (int i = 0; i < enemies.size(); i++) {
+                    enemies.get(i).update(fps);
+                }
+            }
+
+            if (bullets.size() > 0) {
+                for (int i = 0; i < bullets.size(); i++) {
+                    bullets.get(i).update(fps);
+                }
+            }
+
             btnJump.setOnClickListener(this);
             btnShoot.setOnClickListener(this);
             btnPause.setOnClickListener(this);
@@ -250,93 +279,85 @@ public class MainActivity extends Activity {
                 //Player
                 player.drawBitmap(canvas);
 
-                if (fire && bullet.getVisible())
-                    bullet.drawBitmap(canvas);
-                if (fire2 && bullet2.getVisible())
-                    bullet2.drawBitmap(canvas);
-
-                if (bullet.getBulletMove() >= width || !bullet.getVisible()) {
-                    fire = false;
-                    bullet.setBulletMove(120);
+                if (bullets.size() > 0) {
+                    for (int i = 0; i < bullets.size(); i++) {
+                        if (bullets.get(i) != null)
+                            bullets.get(i).drawBitmap(canvas);
+                    }
                 }
 
-                if (bullet2.getBulletMove() >= width || !bullet2.getVisible()) {
-                    fire2 = false;
-                    bullet2.setBulletMove(120);
-                }
-                if (RectF.intersects(enemy.getCollision(), bullet.getCollision()) && bullet.getVisible()) {
-                    bullet.setVisible(false);
-                    enemy.setVisible(false);
-                    score++;
+                if (bullets.size() > 0) {
+                    for (int i = 0; i < bullets.size(); i++) {
+                        if (bullets.get(i).getBulletMove() > width) {
+                            bullets.remove(i);
+                        }
+                    }
                 }
 
-                if (RectF.intersects(enemy.getCollision(), bullet2.getCollision()) && bullet2.getVisible()) {
-                    bullet2.setVisible(false);
-                    enemy.setVisible(false);
-                    score++;
+                for (int i = 0; i < bullets.size(); i++) {
+                    for (int j = 0; j < enemies.size(); j++) {
+                        if (i < bullets.size() && j < enemies.size()) {
+                            if (RectF.intersects(bullets.get(i).getCollision(), enemies.get(j).getCollision())) {
+                                bullets.remove(i);
+                                enemies.get(j).setVisible(false);
+                                score++;
+                            }
+                        }
+                    }
                 }
 
-                if ((!enemy.getVisible()) || enemy.getEnemyMove() <= -200) {
-                    enemy = new Enemy(width, height, getResources());
-                    enemy.setPosYBullet(randPosY);
-                    enemy.setEnemyMove(width + 200);
-                    enemy.setVisible(true);
+                if (enemies.size() > 0) {
+                    for (int i = 0; i < enemies.size(); i++) {
+                        enemies.get(i).drawBitmap(canvas);
+                    }
                 }
 
-                if (enemy.getVisible())
-                    enemy.drawBitmap(canvas);
-
-                if (RectF.intersects(enemy.getCollision(), player.getCollision())) {
-                    paused = true;
-                    isGameOver = true;
-                    setGameOverOn();
+                for (int i = 0; i < enemies.size(); i++) {
+                    if (enemies.get(i).getEnemyMove() < -200) {
+                        enemies.get(i).setVisible(false);
+                    }
                 }
 
-//                if(bullets.size() > 0) {
-//                    for (int j = 0; j < bullets.size(); j++) {
-//                        bullets.get(j).drawBitmap(canvas);
-//
-//                        if (bullets.get(j).getBulletMove() >= width) {
-//                            bullets.remove(j);
-//                        }
-//                    }
-//                    for (int j = 0; j < bullets.size(); j++) {
-//                        if (RectF.intersects(enemy.getCollision(), bullets.get(j).getCollision()) && bullets.get(j).getVisible()) {
-//                            //     bullets.get(j).setVisible(false);
-//                            enemy.setVisible(false);
-//                            bullets.remove(j);
-//                            score++;
-//                        }
-//                    }
-//                }
+                for (int i = 0; i < enemies.size(); i++) {
+                    if (!enemies.get(i).getVisible()) {
+                        enemies.get(i).setEnemyMove(width - 200);
+                        enemies.get(i).setVisible(true);
+                        enemies.get(i).setPosYBullet(randPosY);
+                    }
+                }
+
+                for(int i = 0; i < enemies.size(); i++){
+                    if(RectF.intersects(enemies.get(i).getCollision(), player.getCollision())){
+                        paused = true;
+                        isGameOver = true;
+                        setGameOverOn();
+                    }
+                }
+
                 paint.setColor(Color.WHITE);
                 paint.setTextSize(72);
-                canvas.drawText("Score : " + (int)score, 120, 120, paint);
+                canvas.drawText("Score : " + (int) score, 120, 120, paint);
+
                 //canvas.drawText("FPS:" + fps, 120, 120, paint);
                 ourHolder.unlockCanvasAndPost(canvas);
             }
         }
 
+        public void createEnemy() {
+            enemy = new Enemy(width, height, getResources());
+            enemy.setPosYBullet(randPosY);
+            enemy.setVisible(true);
+            enemy.setEnemyMove(width - 200);
+            enemies.add(enemy);
+        }
+
         public void createAndRestart() {
             parallax = new Parallax(width, height, getResources());
             player = new Player(width, height, getResources());
-            bullet = new Bullet(width, height, getResources());
-            bullet2 = new Bullet(width, height, getResources());
-            enemy = new Enemy(width, height, getResources());
-            enemy.setPosYBullet(player.getPlayerPosY());
-            enemy.setVisible(true);
-            enemy.setEnemyMove(width - 200);
-
+            enemies.clear();
+            bullets.clear();
+            btnPause.setAlpha(1);
             btnName.setEnabled(true);
-
-            //timerShoot = 0;
-
-//            bullets.clear();
-//
-//            for(int i = 0; i <enemies.size(); i++){
-//                enemies.add(enemy);
-//            }
-
             score = 0;
             isGameOver = false;
             paused = false;
@@ -348,67 +369,50 @@ public class MainActivity extends Activity {
             btnExit.setTranslationY(100);
             btnExit.setTranslationX(-200);
             btnExit.setAlpha(1);
-            btnExit.setVisibility(VISIBLE);
 
             btnRestart.setTranslationY(100);
             btnRestart.setTranslationX(200);
             btnRestart.setAlpha(1);
-            btnRestart.setVisibility(VISIBLE);
 
             name.setTranslationY(-100);
             name.setTranslationX(-200);
             name.setAlpha(1);
-            name.setVisibility(VISIBLE);
 
             btnName.setTranslationY(-100);
             btnName.setTranslationX(200);
             btnName.setAlpha(1);
-            btnName.setVisibility(VISIBLE);
 
             btnPause.setEnabled(false);
         }
 
-        public void setGameOverOff(){
+        public void setGameOverOff() {
             btnPause.setEnabled(true);
 
-            btnExit.setVisibility(VISIBLE);
             btnExit.setTranslationY(height);
             btnExit.setAlpha(0);
 
-            btnRestart.setVisibility(VISIBLE);
             btnRestart.setTranslationY(height);
             btnRestart.setAlpha(0);
-
             name.setTranslationY(height);
-          //  name.setTranslationX(-200);
             name.setAlpha(0);
-            name.setVisibility(VISIBLE);
-
             btnName.setTranslationY(height);
-            //btnName.setTranslationX(200);
             btnName.setAlpha(0);
-            btnName.setVisibility(VISIBLE);
         }
 
         public void setPauseOn() {
             btnExit.setTranslationY(100);
             btnExit.setTranslationX(0);
             btnExit.setAlpha(1);
-            btnExit.setVisibility(VISIBLE);
 
             btnResume.setTranslationY(-100);
             btnResume.setAlpha(1);
-            btnResume.setVisibility(VISIBLE);
         }
 
         public void setResume() {
-            btnExit.setTranslationY(height);
             btnExit.setAlpha(0);
-            btnExit.setVisibility(VISIBLE);
-
-            btnResume.setTranslationY(height);
+            btnExit.setTranslationY(height);
             btnResume.setAlpha(0);
-            btnResume.setVisibility(VISIBLE);
+            btnResume.setTranslationY(height);
         }
 
 
@@ -429,7 +433,7 @@ public class MainActivity extends Activity {
 
         @Override
         public void onClick(View v) {
-            switch (v.getId()){
+            switch (v.getId()) {
                 case 1:
                     BtnJump();
                     break;
@@ -452,63 +456,45 @@ public class MainActivity extends Activity {
                     BtnName();
                     break;
             }
+
         }
 
-        private void BtnPause(){
+        private void BtnPause() {
             paused = true;
             setPauseOn();
         }
 
-        private void BtnResume(){
+        private void BtnResume() {
             paused = false;
             setResume();
         }
 
-        private void BtnRestart(){
+        private void BtnRestart() {
             createAndRestart();
         }
 
-        private void BtnExit(){
-            startActivity(new Intent(MainActivity.this, MainMenu.class));
+        private void BtnExit() {
+            startActivity(new Intent(getApplicationContext(), MainMenu.class));
             finish();
         }
 
-        private void BtnJump(){
+        private void BtnJump() {
             player.jump(fps);
             Player.i = 0;
             Player.timer = 0;
         }
 
-        private void BtnShoot(){
-            if (!fire) {
-                bullet.setPosYBullet(player.getPlayerPosY());
+        private void BtnShoot() {
+            if (bullets.size() < 10) {
+                bullet = new Bullet(width, height, getResources());
                 bullet.setBulletMove(120);
-                bullet.setVisible(true);
-                fire = true;
-
-            } else if (fire && !fire2) {
-                fire2 = true;
-                bullet2.setPosYBullet(player.getPlayerPosY());
-                bullet2.setBulletMove(120);
-                bullet2.setVisible(true);
+                bullet.setPosYBullet(player.getPlayerPosY());
+                bullets.add(bullet);
             }
-
-//            if(timerShoot > 1000) {
-//                btnShoot.setEnabled(true);
-//                mybul.setPosYBullet(player.getPlayerPosY());
-//                mybul.setBulletMove(120);
-//                mybul.setVisible(true);
-//                bullets.add(mybul);
-//                timerShoot = 0;
-//            }else{
-//                btnShoot.setEnabled(false);
-//            }
-//            i++;
         }
 
         @SuppressLint("ResourceType")
-        private void BtnName(){
-      //      name = findViewById(7);
+        private void BtnName() {
             String getName = name.getText().toString();
             DatabaseReference reference = FirebaseDatabase.getInstance().getReference().child(getName);
             reference.addListenerForSingleValueEvent(new ValueEventListener() {
@@ -539,4 +525,5 @@ public class MainActivity extends Activity {
         super.onPause();
         gameView.pause();
     }
+
 }

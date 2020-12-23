@@ -14,9 +14,9 @@ public class Enemy {
     boolean isVisible;
 
     int width,height;
-
+    BulletEnemy bulletEnemy;
     int i = 0;
-    float timer = 0;
+    float timer = 0, timerShoot = 0;
     Enemy(int x, int y, Resources resources){
         screenX = x;
         screenY = y;
@@ -27,6 +27,8 @@ public class Enemy {
         enemy[1] = Bitmap.createScaledBitmap(BitmapFactory.decodeResource(resources, R.drawable.enemy2), width, height, false);
         enemy[2] = Bitmap.createScaledBitmap(BitmapFactory.decodeResource(resources, R.drawable.enemy3), width, height, false);
         isVisible = true;
+        bulletEnemy = new BulletEnemy(x,y,resources);
+        bulletEnemy.setVisible(false);
     }
 
     public void update(float fps)
@@ -41,7 +43,7 @@ public class Enemy {
             i = 0;
         }
 
-        enemyMove -= 0.3 * fps;
+        enemyMove -= 0.2 * fps;
     }
 
     public void drawBitmap(Canvas canvas){

@@ -115,7 +115,7 @@ public class MainMenu extends Activity implements  View.OnClickListener {
     }
 
     private void Play(){
-        Intent play = new Intent(getApplicationContext(), MainActivity.class);
+        Intent play = new Intent(getApplicationContext(), GameActivity.class);
         startActivity(play);
         finish();
     }

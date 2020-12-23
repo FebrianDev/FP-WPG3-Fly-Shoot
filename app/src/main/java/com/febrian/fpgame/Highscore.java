@@ -1,10 +1,5 @@
 package com.febrian.fpgame;
 
-import androidx.annotation.NonNull;
-import androidx.core.content.ContextCompat;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
-
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
@@ -14,6 +9,12 @@ import android.view.View;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.Button;
+import android.widget.Toast;
+
+import androidx.annotation.NonNull;
+import androidx.core.content.ContextCompat;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -22,7 +23,6 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.Collections;
 import java.util.Comparator;
 
@@ -59,7 +59,6 @@ public class Highscore extends Activity {
                     Data d = dataSnapshot.getValue(Data.class);
                     data.add(d);
                 }
-                System.out.println("Data "+data.size());
 
                 Collections.sort(data, new Comparator<Data>() {
                     @Override
@@ -67,8 +66,6 @@ public class Highscore extends Activity {
                         return Integer.valueOf(o2.score).compareTo(o1.score);
                     }
                 });
-
-
 
                 rv.setLayoutManager(new LinearLayoutManager(Highscore.this));
                 rv.setHasFixedSize(true);
@@ -78,7 +75,7 @@ public class Highscore extends Activity {
 
             @Override
             public void onCancelled(@NonNull DatabaseError error) {
-                System.out.println("Data : "+ error);
+                Toast.makeText(getApplicationContext(), String.valueOf(error), Toast.LENGTH_SHORT).show();
             }
         });
 
