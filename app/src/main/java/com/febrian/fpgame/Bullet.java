@@ -25,11 +25,11 @@ public class Bullet{
     }
 
     public void update(float fps){
-        bulletMove += 0.1 * fps;
+        bulletMove += 0.15 * fps;
     }
 
     public void drawBitmap(Canvas canvas){
-        canvas.drawBitmap(bullet, getBulletMove() + 120,getPosY()+60, null);
+        canvas.drawBitmap(bullet, getBulletMove() + 180,getPosY()+100, null);
     }
 
     public void setPosYBullet(float posY){

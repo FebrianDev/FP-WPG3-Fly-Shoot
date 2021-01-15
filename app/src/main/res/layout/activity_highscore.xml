@@ -7,10 +7,9 @@
     tools:context=".Highscore">
 
     <View
-        android:id="@+id/view2"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@drawable/bg_with_cloud"
+        android:background="@drawable/bg_cloud_resized__com"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -21,7 +20,7 @@
         android:layout_width="match_parent"
         android:layout_height="180dp"
         android:layout_margin="24dp"
-        android:background="@drawable/bintang_biasa"
+        android:background="@drawable/bintang_biasa_res_com"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
@@ -32,9 +31,8 @@
         android:layout_height="200dp"
         android:layout_margin="24dp"
         android:layout_marginTop="60dp"
-        android:background="@drawable/bintang_bulat"
+        android:background="@drawable/bintang_bulat_res_com"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
@@ -44,7 +42,7 @@
         android:layout_height="60dp"
         android:layout_marginStart="50dp"
         android:layout_marginTop="0dp"
-        android:background="@drawable/comet"
+        android:background="@drawable/comer_res_com"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         tools:ignore="ContentDescription" />
@@ -55,7 +53,7 @@
         android:layout_height="50dp"
         android:layout_marginStart="180dp"
         android:layout_marginTop="0dp"
-        android:background="@drawable/comet"
+        android:background="@drawable/comer_res_com"
         app:layout_constraintStart_toEndOf="@+id/comet1"
         app:layout_constraintTop_toTopOf="parent"
         tools:ignore="ContentDescription" />
@@ -66,16 +64,16 @@
         android:layout_height="60dp"
         android:layout_marginStart="150dp"
         android:layout_marginTop="0dp"
-        android:background="@drawable/comet"
+        android:background="@drawable/comer_res_com"
         app:layout_constraintStart_toEndOf="@+id/comet2"
         app:layout_constraintTop_toTopOf="parent" />
 
     <Button
         android:id="@+id/music_on_off"
-        android:layout_width="48dp"
-        android:layout_height="48dp"
+        android:layout_width="56dp"
+        android:layout_height="56dp"
         android:layout_margin="12dp"
-        android:background="@drawable/btn_music_on"
+        android:background="@drawable/btn_music_on_res_com"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
@@ -84,7 +82,7 @@
         android:layout_width="180dp"
         android:layout_height="108dp"
         android:layout_marginTop="36dp"
-        android:background="@drawable/highscore"
+        android:background="@drawable/highscore_res_com"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
@@ -92,7 +90,7 @@
         android:id="@+id/back"
         android:layout_width="65dp"
         android:layout_height="60dp"
-        android:background="@drawable/back"
+        android:background="@drawable/back_res_com"
         android:layout_margin="32dp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
@@ -154,5 +152,13 @@
         app:layout_constraintStart_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/linearLayout1" />
 
+    <ProgressBar
+        android:id="@+id/progressBar"
+        android:layout_width="120dp"
+        android:layout_height="120dp"
+        app:layout_constraintBottom_toBottomOf="@+id/rv"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/rv" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

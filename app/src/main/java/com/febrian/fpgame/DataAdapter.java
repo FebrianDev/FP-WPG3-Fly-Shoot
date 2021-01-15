@@ -1,6 +1,7 @@
 package com.febrian.fpgame;
 
 import android.content.Context;
+import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -29,9 +30,14 @@ public class DataAdapter extends RecyclerView.Adapter<DataAdapter.ViewHolder> {
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         holder.tv_no.setText(Integer.toString(position + 1));
-        holder.tv_name.setText(data.get(position).getName());
+        holder.tv_name.setText(data.get(position).getUsername());
         holder.tv_score.setText(Integer.toString(data.get(position).getScore()));
 
+        holder.tv_name.setOnClickListener(v -> {
+            Intent intent = new Intent(c, DetailActivity.class);
+            intent.putExtra("name", data.get(position).getUsername());
+            c.startActivity(intent);
+        });
     }
 
     @Override

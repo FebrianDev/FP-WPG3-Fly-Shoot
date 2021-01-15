@@ -9,6 +9,7 @@ import android.view.View;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.Button;
+import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -35,6 +36,7 @@ public class Highscore extends Activity {
     Animation anim;
 
     View comet1,comet2,comet3, bintang_biasa,bintang_bulat;
+    ProgressBar pb;
 
     RecyclerView rv;
     ArrayList<Data> data = new ArrayList<>();
@@ -49,12 +51,16 @@ public class Highscore extends Activity {
         Button back = findViewById(R.id.back);
         back.setOnClickListener(v -> startActivity(new Intent(getApplicationContext(), MainMenu.class)));
 
+        pb = findViewById(R.id.progressBar);
         rv = findViewById(R.id.rv);
 
-        reference = FirebaseDatabase.getInstance().getReference();
+        reference = FirebaseDatabase.getInstance().getReference().child("Users");
         reference.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
+
+                pb.setVisibility(View.INVISIBLE);
+
                 for(DataSnapshot dataSnapshot : snapshot.getChildren()){
                     Data d = dataSnapshot.getValue(Data.class);
                     data.add(d);
@@ -75,6 +81,7 @@ public class Highscore extends Activity {
 
             @Override
             public void onCancelled(@NonNull DatabaseError error) {
+                pb.setVisibility(View.INVISIBLE);
                 Toast.makeText(getApplicationContext(), String.valueOf(error), Toast.LENGTH_SHORT).show();
             }
         });
@@ -86,6 +93,7 @@ public class Highscore extends Activity {
         bintang_bulat = findViewById(R.id.bintang_bulat);
 
         back.setOnClickListener(v -> {
+            back.setAnimation(AnimationUtils.loadAnimation(this, R.anim.button_bounce_anim));
             startActivity(new Intent(getApplicationContext(), MainMenu.class));
             finish();
         });
@@ -110,12 +118,12 @@ public class Highscore extends Activity {
             if (musicOn) {
                 PlayMusic();
                 musicOnOff.setAnimation(anim);
-                musicOnOff.setBackground(ContextCompat.getDrawable(this,R.drawable.btn_music_on));
+                musicOnOff.setBackground(ContextCompat.getDrawable(this,R.drawable.btn_music_on_res_com));
             }
             else{
                 PauseMusic();
                 musicOnOff.setAnimation(anim);
-                musicOnOff.setBackground(ContextCompat.getDrawable(this, R.drawable.btn_music_off));
+                musicOnOff.setBackground(ContextCompat.getDrawable(this, R.drawable.btn_music_off_res_com));
             }
         });
     }

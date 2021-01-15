@@ -19,8 +19,8 @@ public class Parallax {
     }
 
     public void update(float fps){
-        posX -= fps * 0.1;
-        posX2 -= fps * 0.1;
+        posX -= fps * 0.08;
+        posX2 -= fps * 0.08;
         if (posX <= -2100)
             posX = 2100;
         if(posX2 <= -2100)

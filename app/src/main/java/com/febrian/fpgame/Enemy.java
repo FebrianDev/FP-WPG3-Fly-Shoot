@@ -20,8 +20,8 @@ public class Enemy {
     Enemy(int x, int y, Resources resources){
         screenX = x;
         screenY = y;
-        width = 128;
-        height = 128;
+        width = 160;
+        height = 160;
 
         enemy[0] = Bitmap.createScaledBitmap(BitmapFactory.decodeResource(resources, R.drawable.enemy1), width, height, false);
         enemy[1] = Bitmap.createScaledBitmap(BitmapFactory.decodeResource(resources, R.drawable.enemy2), width, height, false);
@@ -34,7 +34,7 @@ public class Enemy {
     public void update(float fps)
     {
         timer += fps;
-        if(timer > 100){
+        if(timer > 400){
             i++;
             timer = 0;
         }
@@ -43,7 +43,7 @@ public class Enemy {
             i = 0;
         }
 
-        enemyMove -= 0.2 * fps;
+        enemyMove -= 0.15 * fps;
     }
 
     public void drawBitmap(Canvas canvas){

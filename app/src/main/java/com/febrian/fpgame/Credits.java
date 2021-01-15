@@ -21,7 +21,6 @@ public class Credits extends Activity{
     Animation anim;
     View comet1,comet2,comet3, bintang_biasa,bintang_bulat;
 
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -40,6 +39,7 @@ public class Credits extends Activity{
         musicOnOff = findViewById(R.id.music_on_off);
 
         back.setOnClickListener(v -> {
+            back.setAnimation(AnimationUtils.loadAnimation(this, R.anim.button_bounce_anim));
             startActivity(new Intent(getApplicationContext(), MainMenu.class));
             finish();
         });
@@ -61,12 +61,12 @@ public class Credits extends Activity{
             if (musicOn) {
                 PlayMusic();
                 musicOnOff.setAnimation(anim);
-                musicOnOff.setBackground(ContextCompat.getDrawable(this,R.drawable.btn_music_on));
+                musicOnOff.setBackground(ContextCompat.getDrawable(this,R.drawable.btn_music_on_res_com));
             }
             else{
                 PauseMusic();
                 musicOnOff.setAnimation(anim);
-                musicOnOff.setBackground(ContextCompat.getDrawable(this, R.drawable.btn_music_off));
+                musicOnOff.setBackground(ContextCompat.getDrawable(this, R.drawable.btn_music_off_res_com));
             }
         });
     }

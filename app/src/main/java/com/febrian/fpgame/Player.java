@@ -17,9 +17,9 @@ public class Player {
         screenY = y;
         playerPosY = screenY/2;
         // Simpan sprite pada array object bitmap
-        player[0] = Bitmap.createScaledBitmap(BitmapFactory.decodeResource(resources, R.drawable.karaktter01), 128, 128, false);
-        player[1] = Bitmap.createScaledBitmap(BitmapFactory.decodeResource(resources, R.drawable.karaktter02), 128, 128, false);
-        player[2] = Bitmap.createScaledBitmap(BitmapFactory.decodeResource(resources, R.drawable.karaktter03), 128, 128, false);
+        player[0] = Bitmap.createScaledBitmap(BitmapFactory.decodeResource(resources, R.drawable.karaktter01), 180, 180, false);
+        player[1] = Bitmap.createScaledBitmap(BitmapFactory.decodeResource(resources, R.drawable.karaktter02), 180, 180, false);
+        player[2] = Bitmap.createScaledBitmap(BitmapFactory.decodeResource(resources, R.drawable.karaktter03), 180, 180, false);
     }
 
 

@@ -7,20 +7,21 @@
     tools:context=".MainMenu">
 
     <View
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:background="@drawable/bg_with_cloud"
-        app:layout_constraintStart_toStartOf="parent"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="@drawable/bg_cloud_resized__com"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintBottom_toBottomOf="parent"/>
+        />
 
     <View
         android:id="@+id/bintang_biasa"
         android:layout_width="match_parent"
         android:layout_height="200dp"
         android:layout_margin="24dp"
-        android:background="@drawable/bintang_biasa"
+        android:background="@drawable/bintang_biasa_res_com"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
@@ -30,7 +31,7 @@
         android:layout_width="match_parent"
         android:layout_height="200dp"
         android:layout_margin="24dp"
-        android:background="@drawable/bintang_bulat"
+        android:background="@drawable/bintang_bulat_res_com"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
@@ -42,7 +43,7 @@
         android:layout_height="60dp"
         android:layout_marginStart="50dp"
         android:layout_marginTop="0dp"
-        android:background="@drawable/comet"
+        android:background="@drawable/comer_res_com"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         tools:ignore="ContentDescription" />
@@ -53,7 +54,7 @@
         android:layout_height="50dp"
         android:layout_marginStart="180dp"
         android:layout_marginTop="0dp"
-        android:background="@drawable/comet"
+        android:background="@drawable/comer_res_com"
         app:layout_constraintStart_toEndOf="@+id/comet1"
         app:layout_constraintTop_toTopOf="parent"
         tools:ignore="ContentDescription" />
@@ -64,25 +65,89 @@
         android:layout_height="60dp"
         android:layout_marginStart="150dp"
         android:layout_marginTop="0dp"
-        android:background="@drawable/comet"
+        android:background="@drawable/comer_res_com"
         app:layout_constraintStart_toEndOf="@+id/comet2"
         app:layout_constraintTop_toTopOf="parent" />
 
     <Button
         android:id="@+id/music_on_off"
-        android:layout_width="48dp"
-        android:layout_height="48dp"
+        android:layout_width="56dp"
+        android:layout_height="56dp"
         android:layout_margin="12dp"
-        android:background="@drawable/btn_music_on"
+        android:background="@drawable/btn_music_on_res_com"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
+
+    <de.hdodenhof.circleimageview.CircleImageView
+        android:id="@+id/btn_profil"
+        android:layout_width="48dp"
+        android:layout_height="48dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="4dp"
+        android:onClick="onClick"
+        android:src="@drawable/ic_baseline_person_24"
+        app:civ_border_color="#fff"
+        app:civ_border_width="4dp"
+        app:civ_circle_background_color="#fff"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/profile" />
+
+    <de.hdodenhof.circleimageview.CircleImageView
+        android:id="@+id/btn_logout"
+        android:layout_width="48dp"
+        android:layout_height="48dp"
+        app:civ_border_color="#fff"
+        android:layout_marginTop="8dp"
+        android:layout_marginLeft="16dp"
+        android:src="@drawable/ic_baseline_exit_to_app_24"
+        app:civ_circle_background_color="#fff"
+        app:civ_border_width="4dp"
+        android:onClick="onClick"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/btn_profil" />
+
+    <de.hdodenhof.circleimageview.CircleImageView
+        android:id="@+id/profile"
+        android:layout_width="56dp"
+        android:layout_height="56dp"
+        android:layout_margin="12dp"
+        app:civ_border_color="#fff"
+        app:civ_circle_background_color="#fff"
+        app:civ_border_width="4dp"
+        android:onClick="onClick"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text=""
+        android:id="@+id/name"
+        app:layout_constraintStart_toEndOf="@+id/profile"
+        app:layout_constraintTop_toTopOf="parent"
+        android:textSize="24sp"
+        android:textColor="#fff"
+        android:textStyle="bold"
+        android:layout_marginLeft="12dp"
+        android:layout_marginTop="12dp"/>
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text=""
+        android:id="@+id/score"
+        app:layout_constraintStart_toEndOf="@+id/profile"
+        app:layout_constraintTop_toBottomOf="@+id/name"
+        android:layout_marginLeft="12dp"
+        android:textSize="20sp"
+        android:textColor="#fff"
+        android:textStyle="bold|italic"
+        />
 
     <View
         android:id="@+id/view"
         android:layout_width="250dp"
         android:layout_height="150dp"
         android:layout_marginTop="24dp"
-        android:background="@drawable/title_menu"
+        android:background="@drawable/title_res_com"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
@@ -93,7 +158,7 @@
         android:layout_height="60dp"
         android:layout_marginStart="108dp"
         android:layout_marginTop="24dp"
-        android:background="@drawable/btn_play"
+        android:background="@drawable/btn_play_res_com"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/view" />
 
@@ -103,7 +168,7 @@
         android:layout_height="60dp"
         android:layout_marginStart="108dp"
         android:layout_marginTop="20dp"
-        android:background="@drawable/btn_high_score"
+        android:background="@drawable/btn_highscore_res_com"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/btn_play" />
 
@@ -113,7 +178,7 @@
         android:layout_height="60dp"
         android:layout_marginEnd="108dp"
         android:layout_marginTop="24dp"
-        android:background="@drawable/btn_credit"
+        android:background="@drawable/btn_credit_res_com"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/view" />
 
@@ -124,9 +189,8 @@
         android:layout_marginStart="108dp"
         android:layout_marginEnd="108dp"
         android:layout_marginTop="20dp"
-        android:background="@drawable/btn_exit"
+        android:background="@drawable/btn_exit_res_com"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/btn_credit" />
-
 
 </androidx.constraintlayout.widget.ConstraintLayout>
